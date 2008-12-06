@@ -27,7 +27,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 sub new {
@@ -90,6 +90,12 @@ This module was written to make life a little easier for me when I have been dev
 institutions to prevent students from being able to circumvent legally required content filtering systems.
 
 Its nothing special, just a quick and easy way to get the data together in an array.
+
+An alternative server and port can be specified:
+
+  my @servers = $torsrv->getservers($server,$port);
+  
+  where $server is the IP / hostname of a Tor Directory Server, and $port is the port number.
 
 =head1 SEE ALSO
 

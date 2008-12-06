@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Net-Tor-Servers
-version:            0.01
+version:            0.02
 abstract:           Perl extension to query a Tor Directory and collect information on servers
 author:
     - Andy Dixon <andy@apple.com>

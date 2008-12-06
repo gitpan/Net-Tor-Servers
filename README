@@ -1,4 +1,4 @@
-Net::Tor::Servers version 0.01
+Net::Tor::Servers version 0.02
 ==============================
 
 This module was written to make life a little easier for me when I have been developing a dymanic blocklist for educational
