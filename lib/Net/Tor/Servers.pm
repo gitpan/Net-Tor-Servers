@@ -27,7 +27,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 sub new {
@@ -48,17 +48,28 @@ sub getservers {
     if (!$port) {
         $port = 9031;
     }
+    my $ip;
+    my $hostname;
+    my $orport;
+    my $dirrepport;
+    my $exit;
     my $content = get("http://$torserver:$port/tor/status/all") or die("Error getting Tor Directory Listing.\n");
     my @lines = split(/\n/,$content);
     foreach $router (@lines) {
         @rarray = split(/\ /,$router);
         if($rarray[0] =~ /^r$/) {
-            my $ip=$rarray[6];
-            my $hostname=$rarray[1];
-            my $orport = $rarray[7];
-            my $dirrepport = $rarray[8];
-            @torarray = (@torarray,[$ip,$hostname,$orport,$dirrepport]);   
+            $ip=$rarray[6];
+            $hostname=$rarray[1];
+            $orport = $rarray[7];
+            $dirrepport = $rarray[8];
         }
+	elsif ($rarray[0] =~ /^s$/) {
+            $exit = 1;
+            if ((!defined $rarray[1]) || $rarray[1] ne 'Exit') {
+                $exit = 0;
+            }
+            @torarray = (@torarray,[$ip,$hostname,$orport,$dirrepport,$exit]);   
+	}
     }
    
     return @torarray;    
@@ -81,7 +92,12 @@ Net::Tor::Servers - Perl extension to query a Tor Directory and collect informat
   my @servers = $torsrv->getservers;
     
   for my $i (0..$#servers) {
-    print "IP: $servers[$i][0], Name: $servers[$i][1], ORPort: $servers[$i][2], DirPort: $servers[$i][3]\n";
+    print "IP: $servers[$i][0], Name: $servers[$i][1], ORPort: $servers[$i][2], DirPort: $servers[$i][3]";
+	if ($servers[$i][4]==1) {
+		print " (Exit Node)\n";
+	} else {
+		print " (relay node)\n";
+	}
   }
 
 =head1 DESCRIPTION
@@ -107,7 +123,9 @@ Andy Dixon, E<lt>ajdixon@cpan.orgE<gt> www.andydixon.com
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2008 by Andy Dixon
+Copyright (C) 2011 by Andy Dixon
+
+Thanks to Folkert van Heusden <a href='http://www.vanheusden.com'>www.vanheusden.com</a> for tor node type request and subsequent code change.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.8 or,

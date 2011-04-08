@@ -7,7 +7,7 @@
 
 use Test::Simple tests => 1;
 
-  ok( 1 eq 1, 'foo is bar, and pi is _not_ exactly 3' );
+  ok( 1 eq 1, 'foo is bar, and NetNodes is a fail.' );
 
 #########################
 

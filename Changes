@@ -6,3 +6,6 @@ Revision history for Perl extension Net::Tor::Servers.
 
 0.02  Sat Dec  6 11:22:00 2008
 	- Updated documentation to specify custom directory server
+
+0.03  Fri Apr  8 12:52:00 2011
+	- Updated to add Folkert Van Heusden's changes to identify node type
